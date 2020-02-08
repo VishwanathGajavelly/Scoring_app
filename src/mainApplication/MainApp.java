@@ -6,11 +6,16 @@ import java.sql.SQLException;
 
 import javax.swing.JFrame;
 
+import model.DbConnection;
 import view.InsertDataForm;
 
 public class MainApp {
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+		
+		DbConnection dbConnection = new DbConnection();
+		dbConnection.getNextChestNumber();
 		
 		EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -33,7 +38,7 @@ public class MainApp {
                      }
                 	 
                     InsertDataForm window = new InsertDataForm();
-                    Dimension maxDim = new Dimension(650, 500);
+                    Dimension maxDim = new Dimension(700, 800);
                     window.setTitle("NATIONAL LEVEL COMPETITIONS");
             		window.setSize(maxDim);
             		window.setResizable(false);

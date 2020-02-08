@@ -99,7 +99,21 @@ public class DbConnection {
 		
 		
 	}
+	
+	public  Integer getNextChestNumber() throws SQLException, ClassNotFoundException {
 
+		if (conn == null) {
+			getConnection();
+		}
+
+		Statement state = conn.createStatement();
+		ResultSet res = state.executeQuery("select max(chestNumber) from participants");
+		Integer chestNumber = res.getInt("max(chestNumber)");
+		return (chestNumber+1); 
+		
+		
+	}
+	
 	public void createTable() throws SQLException, ClassNotFoundException {
 
 		if (conn == null) {

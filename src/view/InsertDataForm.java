@@ -29,7 +29,6 @@ public class InsertDataForm extends JFrame {
 	public JTextField tb_lastName;
 	public JTextField tb_state;
 	public JTextField tb_age;
-	public JTextField tb_chestNumber;
 	
 	public JTextField tb_firstName_scores;
 	public JTextField tb_lastName_scores;
@@ -42,7 +41,7 @@ public class InsertDataForm extends JFrame {
 	
 	//repaint();
 	
-    public InsertDataForm() {
+    public InsertDataForm() throws ClassNotFoundException, SQLException {
 	 	
     	JPanel participantInsertionPanel = getParticipantDetailsTabbedPane();
     	JPanel scoresInsertionPanel = getParticipantDetailsTabbedPane2();
@@ -56,7 +55,9 @@ public class InsertDataForm extends JFrame {
 	
     }
 
-	private JPanel getParticipantDetailsTabbedPane() {
+	private JPanel getParticipantDetailsTabbedPane() throws ClassNotFoundException, SQLException {
+		
+		dbConnection = new DbConnection();
 		
 		JPanel generatorPanel = new JPanel();
 		generatorPanel.setBackground(new Color(238, 232, 170));
@@ -66,14 +67,17 @@ public class InsertDataForm extends JFrame {
 		JLabel label_chestNumber= new JLabel("CHEST NUMBER");
 		JLabel label_state= new JLabel("STATE");
 		JLabel label_age= new JLabel("AGE");
+		JLabel chestNumber_label= new JLabel(dbConnection.getNextChestNumber().toString());
+		chestNumber_label.setForeground(new Color(128, 0, 0));
+		
 		JButton btn_addParticipant = new JButton("Insert Participant");
 		
 		tb_firstName = new JTextField();
 		tb_lastName = new JTextField();
 		tb_state = new JTextField();
 		tb_age = new JTextField();
-		tb_chestNumber = new JTextField();
 		
+		chestNumber_label.setFont(new Font("Cambria", Font.PLAIN, 50));
 		label_firstName.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		label_lastName.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		label_state.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -81,53 +85,54 @@ public class InsertDataForm extends JFrame {
 		label_chestNumber.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btn_addParticipant.setFont(new Font("Tahoma", Font.BOLD, 18));
 		
+		label_chestNumber.setBounds(150, 50, 250, 20);
+		label_firstName.setBounds(150, 100, 150, 20);
+		label_lastName.setBounds(150, 150, 150, 20);
+		label_state.setBounds(150, 200, 150, 20);
+		label_age.setBounds(150, 250, 150, 20);
+		btn_addParticipant.setBounds(200, 400, 200, 50);
 		
-		label_firstName.setBounds(150, 50, 150, 20);
-		label_lastName.setBounds(150, 100, 150, 20);
-		label_state.setBounds(150, 150, 150, 20);
-		label_age.setBounds(150, 200, 150, 20);
-		label_chestNumber.setBounds(150, 250, 250, 20);
-		btn_addParticipant.setBounds(200, 350, 200, 50);
-		
-		tb_firstName.setBounds(300, 50, 150, 30);
-		tb_lastName.setBounds(300, 100, 150,30);
-		tb_state.setBounds(300, 150, 150, 30);
-		tb_age.setBounds(300, 200, 150,30);
-		tb_chestNumber.setBounds(300, 250, 150, 30);
+		chestNumber_label.setBounds(300, 30, 150, 50);
+		tb_firstName.setBounds(300, 100, 150, 30);
+		tb_lastName.setBounds(300, 150, 150,30);
+		tb_state.setBounds(300, 200, 150, 30);
+		tb_age.setBounds(300, 250, 150,30);
 		
 		tb_firstName.setToolTipText("FIRST NAME");
 		tb_lastName.setToolTipText("LAST NAME");
 		tb_state.setToolTipText("STATE");
 		tb_age.setToolTipText("AGE");
-		tb_chestNumber.setToolTipText("CHEST NUMBER");
 		
 		tb_firstName.setColumns(10);
 		tb_lastName.setColumns(10);
 		tb_state.setColumns(10);
 		tb_age.setColumns(10);
-		tb_chestNumber.setColumns(10);
 		
-
+		
 		btn_addParticipant.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {
-					if(tb_firstName.getText().isEmpty()||(tb_lastName.getText().isEmpty())||(tb_chestNumber.getText().isEmpty())||
+					if(tb_firstName.getText().isEmpty()||(tb_lastName.getText().isEmpty())||
 							(tb_age.getText().isEmpty())||(tb_state.getText().isEmpty())) {
 	                    JOptionPane.showMessageDialog(null, "Data Missing");
 					}else {       
 						String firstName =tb_firstName.getText();
 	    				String lastName = tb_lastName.getText();
-	    				int chestNumber = Integer.parseInt(tb_chestNumber.getText());
+	    				int chestNumber = Integer.parseInt(chestNumber_label.getText());
 	    				int age = Integer.parseInt(tb_age.getText());
 	    				String state = tb_state.getText();
 	    				
 	    				Participant newEntry = new Participant(firstName, lastName, chestNumber, age, state);
-	    				dbConnection = new DbConnection();
 	    				Boolean isInsertSuccess = dbConnection.addParticipant(newEntry);
 	    				
 	    				if(isInsertSuccess) {
 		    				JOptionPane.showMessageDialog(null, "Data Submitted");	
+		    				chestNumber_label.setText(dbConnection.getNextChestNumber().toString());
+		    				tb_firstName.setText(null);
+		    				tb_lastName.setText(null);
+		    				tb_age.setText(null);
+		    				tb_state.setText(null);
 	    				}else {
 	    					 JOptionPane.showMessageDialog(null, "INSERTION FAILED");
 	    				}
@@ -163,8 +168,8 @@ public class InsertDataForm extends JFrame {
 		generatorPanel.add(label_age);
 		generatorPanel.add(tb_age);
 		generatorPanel.add(label_chestNumber);
-		generatorPanel.add(tb_chestNumber);
 		generatorPanel.add(btn_addParticipant);
+		generatorPanel.add(chestNumber_label);
 		
 		
 		return generatorPanel;
