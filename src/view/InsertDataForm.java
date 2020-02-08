@@ -15,10 +15,10 @@ import participant.Participant;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JPanel;
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class InsertDataForm extends JFrame {
 	
@@ -40,6 +40,8 @@ public class InsertDataForm extends JFrame {
 	
 	public DbConnection dbConnection;
 	
+	//repaint();
+	
     public InsertDataForm() {
 	 	
     	JPanel participantInsertionPanel = getParticipantDetailsTabbedPane();
@@ -56,55 +58,56 @@ public class InsertDataForm extends JFrame {
 
 	private JPanel getParticipantDetailsTabbedPane() {
 		
+		JPanel generatorPanel = new JPanel();
+		generatorPanel.setBackground(new Color(238, 232, 170));
+		
 		JLabel label_firstName = new JLabel("FIRST NAME");
-		tb_firstName = new JTextField();
-		tb_firstName.setToolTipText("FIRST NAME");
-		tb_firstName.setText("firstName");
-		tb_firstName.setColumns(10);
-		JPanel firstNamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 10));
-		firstNamePanel.add(Box.createHorizontalStrut(10));
-		firstNamePanel.add(label_firstName);
-		firstNamePanel.add(Box.createHorizontalStrut(40));
-		firstNamePanel.add(tb_firstName);
-
 		JLabel label_lastName= new JLabel("LAST NAME");
-		tb_lastName = new JTextField();
-		tb_lastName.setColumns(10);
-		JPanel lastNamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 10));
-		lastNamePanel.add(Box.createHorizontalStrut(10));
-		lastNamePanel.add(label_lastName);
-		lastNamePanel.add(Box.createHorizontalStrut(45));
-		lastNamePanel.add(tb_lastName);
-
-		JLabel label_state= new JLabel("STATE");
-		tb_state = new JTextField();
-		tb_state.setColumns(10);
-		JPanel statePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 10));
-		statePanel.add(Box.createHorizontalStrut(10));
-		statePanel.add(label_state);
-		Component horizontalStrut = Box.createHorizontalStrut(73);
-		statePanel.add(horizontalStrut);
-		statePanel.add(tb_state);
-		
-		JLabel label_age= new JLabel("AGE");
-		tb_age = new JTextField();
-		tb_age.setColumns(10);
-		JPanel agePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 10));
-		agePanel .add(Box.createHorizontalStrut(10));
-		agePanel .add(label_age);
-		agePanel .add(Box.createHorizontalStrut(88));
-		agePanel .add(tb_age);
-		
 		JLabel label_chestNumber= new JLabel("CHEST NUMBER");
-		tb_chestNumber = new JTextField();
-		tb_chestNumber.setColumns(10);
-		JPanel chestNumberPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 40, 10));
-		chestNumberPanel.add(Box.createHorizontalStrut(10));
-		chestNumberPanel.add(label_chestNumber);
-		chestNumberPanel.add(Box.createHorizontalStrut(20));
-		chestNumberPanel.add(tb_chestNumber);
-
+		JLabel label_state= new JLabel("STATE");
+		JLabel label_age= new JLabel("AGE");
 		JButton btn_addParticipant = new JButton("Insert Participant");
+		
+		tb_firstName = new JTextField();
+		tb_lastName = new JTextField();
+		tb_state = new JTextField();
+		tb_age = new JTextField();
+		tb_chestNumber = new JTextField();
+		
+		label_firstName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		label_lastName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		label_state.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		label_age.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		label_chestNumber.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btn_addParticipant.setFont(new Font("Tahoma", Font.BOLD, 18));
+		
+		
+		label_firstName.setBounds(150, 50, 150, 20);
+		label_lastName.setBounds(150, 100, 150, 20);
+		label_state.setBounds(150, 150, 150, 20);
+		label_age.setBounds(150, 200, 150, 20);
+		label_chestNumber.setBounds(150, 250, 250, 20);
+		btn_addParticipant.setBounds(200, 350, 200, 50);
+		
+		tb_firstName.setBounds(300, 50, 150, 30);
+		tb_lastName.setBounds(300, 100, 150,30);
+		tb_state.setBounds(300, 150, 150, 30);
+		tb_age.setBounds(300, 200, 150,30);
+		tb_chestNumber.setBounds(300, 250, 150, 30);
+		
+		tb_firstName.setToolTipText("FIRST NAME");
+		tb_lastName.setToolTipText("LAST NAME");
+		tb_state.setToolTipText("STATE");
+		tb_age.setToolTipText("AGE");
+		tb_chestNumber.setToolTipText("CHEST NUMBER");
+		
+		tb_firstName.setColumns(10);
+		tb_lastName.setColumns(10);
+		tb_state.setColumns(10);
+		tb_age.setColumns(10);
+		tb_chestNumber.setColumns(10);
+		
+
 		btn_addParticipant.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -146,30 +149,26 @@ public class InsertDataForm extends JFrame {
             	
 			}
 		});
-		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		buttonPanel.add(btn_addParticipant);
+
 		
 		
-		JPanel generatorPanel = new JPanel();
-		generatorPanel.setLayout(new BoxLayout(generatorPanel, BoxLayout.Y_AXIS));
-		generatorPanel.add(Box.createVerticalStrut(5));
-		generatorPanel.add(firstNamePanel);
-		generatorPanel.add(Box.createVerticalStrut(5));
-		generatorPanel.add(lastNamePanel);
-		generatorPanel.add(Box.createVerticalStrut(5));
-		generatorPanel.add(statePanel);
 		
-		generatorPanel.add(Box.createVerticalStrut(5));
-		generatorPanel.add(agePanel);
-		generatorPanel.add(Box.createVerticalStrut(5));
-		generatorPanel.add(chestNumberPanel);
-	
-		generatorPanel.add(Box.createVerticalStrut(5));
-		generatorPanel.add(buttonPanel);
-	
+		generatorPanel.setLayout(null);
+		generatorPanel.add(label_firstName);
+		generatorPanel.add(tb_firstName);
+		generatorPanel.add(label_lastName);
+		generatorPanel.add(tb_lastName);
+		generatorPanel.add(label_state);
+		generatorPanel.add(tb_state);
+		generatorPanel.add(label_age);
+		generatorPanel.add(tb_age);
+		generatorPanel.add(label_chestNumber);
+		generatorPanel.add(tb_chestNumber);
+		generatorPanel.add(btn_addParticipant);
+		
+		
 		return generatorPanel;
-        
-	}
+    }
 	
 	private JPanel getParticipantDetailsTabbedPane2() {
 		JLabel label_firstName_scores = new JLabel("FIRST NAME");
